@@ -1,0 +1,15 @@
+<suite name="ParallelExecution" >
+    <parameter name="environment" value="local"/>
+    <parameter name="platform" value="iOS"/>
+    <parameter name="iOSDeviceName" value="iPhone 17 Pro"/>
+    <parameter name="iOSDeviceVersion" value="26.1"/>
+    <parameter name="androidDeviceName" value="8aa5ba96"/>
+    <test name="Setmore Automation Local Execution">
+
+        <classes>
+            <class name="BaseClass.Hooks"/>
+            <class name="TestSuite.LoginTests.LoginTests"/>
+            <class name="TestSuite.SettingsTests.SettingsTests"/>
+        </classes>
+    </test>
+</suite>
