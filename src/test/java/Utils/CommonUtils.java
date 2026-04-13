@@ -1,6 +1,8 @@
 package Utils;
 
+import BaseClass.Hooks;
 import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 
 import java.time.LocalDateTime;
@@ -11,6 +13,7 @@ public class CommonUtils {
     public static String reportFolderPath = "reports";
     public static ExtentReports extent = new ExtentReports();
     public static ExtentSparkReporter spark;
+    ExtentTest test = Hooks.getTest();
 
 
     public static void extentReports(String platform, String appName) {
@@ -38,5 +41,15 @@ public class CommonUtils {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH:mm:ss");
         // Format the current date and time using the formatter
         return currentDateTime.format(formatter);
+    }
+
+    public void passMessage(String msg){
+        Hooks.getTest().pass(msg);
+    }
+    public void infoMessage(String msg){
+        Hooks.getTest().info(msg);
+    }
+    public void failMessage(Throwable e) {
+        Hooks.getTest().fail("Test failed: " + e.getMessage());
     }
 }

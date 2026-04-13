@@ -1,39 +1,48 @@
 package BaseClass;
 
 import Utils.CommonUtils;
+import com.aventstack.extentreports.ExtentTest;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import org.testng.annotations.AfterSuite;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 
 
-
 public class Hooks extends CommonUtils {
+    public static ThreadLocal<AppiumDriver> driver = new ThreadLocal<>();
 
-    public Hooks() throws Throwable {
+    public Hooks() {
     }
 
-
     @BeforeTest(alwaysRun = true)
-    public void beforeTestLaunchApp() throws Throwable {
-        launchApp();
+    public void beforeTestLaunchApp() throws MalformedURLException {
         extentReports("Android", "Cash Giraffe");
+        launchApp();
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void createTest(Method method) {
+        ExtentTest extentTest = extent.createTest(method.getName());
+        setTest(extentTest);
+    }
+
+    @AfterTest(alwaysRun = true)
+    public void quitDriver() {
+        tearDown();
     }
 
     @AfterSuite(alwaysRun = true)
-    public void after() throws Throwable {
+    public void after() {
         extent.flush();
     }
-
-
-    public static ThreadLocal<AppiumDriver> driver = new ThreadLocal<>();
-
-
 
     public static void launchApp() throws MalformedURLException {
         UiAutomator2Options options = new UiAutomator2Options();
@@ -42,10 +51,11 @@ public class Hooks extends CommonUtils {
         options.setPlatformName("Android");
         options.setUdid("emulator-5554");
         options.setAppPackage("cashgiraffe.app");
-        options.setAppActivity("de.mcoins.applike.LauncherDefault");
+//        options.setAppActivity("de.mcoins.applike.LauncherDefault");
+        options.setAppWaitActivity("*");
+        options.setAutoGrantPermissions(true); // notification prompt - off
 
-        options.setNoReset(true);
-        options.setFullReset(false);
+        options.setNoReset(false);
 
         driver.set(new AndroidDriver(
                 new URL("http://127.0.0.1:4723/"),
@@ -58,6 +68,17 @@ public class Hooks extends CommonUtils {
 
     public static AppiumDriver getDriver() {
         return driver.get();
+    }
+
+
+    public static ThreadLocal<ExtentTest> test = new ThreadLocal<>();
+
+    public static ExtentTest getTest() {
+        return test.get();
+    }
+
+    public static void setTest(ExtentTest extentTest) {
+        test.set(extentTest);
     }
 
     public static void tearDown() {
