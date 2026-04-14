@@ -1,5 +1,4 @@
-<suite name="ParallelExecution" >
-    <parameter name="androidDeviceName" value="8aa5ba96"/>
+<suite name="Just Dice Sanity Test Suite - UI Flows" >
     <test name="Setmore Automation Local Execution">
 
         <classes>

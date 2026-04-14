@@ -36,7 +36,7 @@ src/main/java/
 src/test/java/
   BaseClass/      # Hooks — TestNG lifecycle + reporting
   TestSuite/      # Test classes by feature
-  Resources/      # App notes (no APK in repo)
+  Resources/      # App notes (Play Store APK Link is provided)
 testng.xml        # TestNG suite definition
 reports/          # Generated Extent HTML reports (created at run time)
 ```
@@ -45,9 +45,8 @@ reports/          # Generated Extent HTML reports (created at run time)
 
 The suite file [`testng.xml`](testng.xml) defines:
 
-- **Suite name**: `ParallelExecution`
-- **Parameter**: `androidDeviceName` — intended for device id (align with `CommonUtils` if you parameterize launch)
-- **Test name**: `Setmore Automation Local Execution` (legacy label; execution is for Cash Giraffe)
+- **Suite name**: `Just Dice Sanity Test Suite - UI Flows`
+- **Test name**: `Just Dice - Cash Giraffee Automation Local Execution`
 - **Classes** (order matters for shared `@BeforeTest` in `Hooks`):
   1. `BaseClass.Hooks` — must run first so the app session and Extent report are initialized
   2. `TestSuite.LoginTests.LoginTests`
