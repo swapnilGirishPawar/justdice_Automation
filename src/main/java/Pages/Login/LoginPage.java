@@ -15,9 +15,18 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class LoginPage {
-
     private final AppiumDriver driver;
     private final Duration defaultWait;
+
+    public LoginPage(AppiumDriver driver, Duration defaultWait) {
+        this.driver = driver;
+        this.defaultWait = defaultWait;
+        PageFactory.initElements(new AppiumFieldDecorator(driver, defaultWait), this);
+    }
+
+    public LoginPage(AppiumDriver driver) {
+        this(driver, Duration.ofSeconds(15));
+    }
 
     @AndroidFindBy(xpath = "//android.widget.ScrollView[@scrollable='true']")
     @iOSXCUITFindBy(id = "Value")
@@ -63,15 +72,15 @@ public class LoginPage {
     @iOSXCUITFindBy(id = "Value")
     private WebElement adjoePersonalizedRecommendationsNotice;
 
-    public LoginPage(AppiumDriver driver) {
-        this(driver, Duration.ofSeconds(15));
-    }
+    @AndroidFindBy(accessibility = "Go back")
+    @iOSXCUITFindBy(id = "Value")
+    private WebElement goBackButton;
 
-    public LoginPage(AppiumDriver driver, Duration defaultWait) {
-        this.driver = driver;
-        this.defaultWait = defaultWait;
-        PageFactory.initElements(new AppiumFieldDecorator(driver, defaultWait), this);
-    }
+    @AndroidFindBy(xpath = "//android.widget.TextView[@text=\"To proceed, you need to accept our Terms of Service\"]")
+    @iOSXCUITFindBy(id = "Value")
+    private WebElement infoTextAfterReject;
+
+
 
     private WebDriverWait waitFor(Duration timeout) {
         return new WebDriverWait(driver, timeout);
@@ -97,6 +106,11 @@ public class LoginPage {
             return false;
         }
     }
+
+    public boolean isInfoTextAfterRejectDisplayed() {
+        return isDisplayed(infoTextAfterReject);
+    }
+
 
     public boolean isWelcomeScrollViewDisplayed() {
         return isDisplayed(welcomeScrollView);
@@ -185,14 +199,10 @@ public class LoginPage {
                 .until(ExpectedConditions.elementToBeClickable(rejectButton));
         target.click();
     }
-
-    public void tapAccept(Duration timeout) {
-        WebElement target = waitFor(timeout).until(ExpectedConditions.elementToBeClickable(acceptButton));
+    public void tapGoBack() {
+        WebElement target = waitFor(defaultWait)
+                .until(ExpectedConditions.elementToBeClickable(goBackButton));
         target.click();
     }
 
-    public void tapReject(Duration timeout) {
-        WebElement target = waitFor(timeout).until(ExpectedConditions.elementToBeClickable(rejectButton));
-        target.click();
-    }
 }

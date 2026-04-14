@@ -5,7 +5,7 @@
         <classes>
             <class name="BaseClass.Hooks"/>
             <class name="TestSuite.LoginTests.LoginTests"/>
-            <class name="TestSuite.SettingsTests.SettingsTests"/>
+            <class name="TestSuite.ProfileTests.ProfileTests"/>
         </classes>
     </test>
 </suite>

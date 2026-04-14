@@ -1,10 +1,21 @@
 package Utils;
 
-import BaseClass.Hooks;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
+import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.options.UiAutomator2Options;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebElement;
 
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -13,7 +24,8 @@ public class CommonUtils {
     public static String reportFolderPath = "reports";
     public static ExtentReports extent = new ExtentReports();
     public static ExtentSparkReporter spark;
-    ExtentTest test = Hooks.getTest();
+    private static final ThreadLocal<ExtentTest> extentTest = new ThreadLocal<>();
+    public static ThreadLocal<AppiumDriver> driver = new ThreadLocal<>();
 
 
     public static void extentReports(String platform, String appName) {
@@ -44,12 +56,69 @@ public class CommonUtils {
     }
 
     public void passMessage(String msg){
-        Hooks.getTest().pass(msg);
+        System.out.println(msg);
+        getTest().pass(msg);
     }
     public void infoMessage(String msg){
-        Hooks.getTest().info(msg);
+        System.out.println(msg);
+        getTest().info(msg);
     }
     public void failMessage(Throwable e) {
-        Hooks.getTest().fail("Test failed: " + e.getMessage());
+        getTest().fail("Test failed: " + e.getMessage());
     }
+
+    public static boolean isDisplayed(WebElement element) {
+        try {
+            return element.isDisplayed();
+        } catch (NoSuchElementException | StaleElementReferenceException e) {
+            return false;
+        }
+    }
+
+    public static void launchApp() throws MalformedURLException {
+        UiAutomator2Options options = new UiAutomator2Options();
+
+        options.setAutomationName("UiAutomator2");
+        options.setPlatformName("Android");
+        options.setUdid("emulator-5554");
+        options.setAppPackage("cashgiraffe.app");
+//        options.setAppActivity("de.mcoins.applike.LauncherDefault");
+        options.setAppWaitActivity("*");
+        options.setAutoGrantPermissions(true); // notification prompt - off
+
+        options.setNoReset(false);
+
+        driver.set(new AndroidDriver(
+                new URL("http://127.0.0.1:4723/"),
+                options
+        ));
+        System.out.println("App Launch Started");
+        driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+    }
+
+
+    public static AppiumDriver getDriver() {
+        return driver.get();
+    }
+
+
+    public static ExtentTest getTest() {
+        return extentTest.get();
+    }
+
+    public static void setTest(ExtentTest testInstance) {
+        extentTest.set(testInstance);
+    }
+
+    public static void removeTest() {
+        extentTest.remove();
+    }
+
+    public static void tearDown() {
+        System.out.println("Tear Down Started");
+        if (driver.get() != null) {
+            driver.get().quit();
+        }
+    }
+
 }
