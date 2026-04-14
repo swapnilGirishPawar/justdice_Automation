@@ -2,7 +2,6 @@ package TestSuite.LoginTests;
 
 import BaseClass.Hooks;
 import Pages.Login.LoginPage;
-import com.aventstack.extentreports.ExtentTest;
 import io.appium.java_client.AppiumDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
