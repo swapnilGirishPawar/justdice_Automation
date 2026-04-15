@@ -2,6 +2,11 @@
 
 Mobile UI automation for the **Cash Giraffe** Android app using **Appium 2**, **TestNG**, and **Maven**.
 
+## Introduction
+This repository is a **sample mobile test automation framework** built for **[justdice.io](https://justdice.io)**. The framework was created **on my own initiative** to show how I would structure, run, and report UI checks for a product in their ecosystem - in this case the **Cash Giraffe** Android app.
+The goal is to make it easy for reviewers to see **real automation choices** (Page Object Model, TestNG lifecycle, Appium 2, ExtentReports) rather than only discussing them in interviews. If you are from justDice and reviewing this: thank you for the time in the first round; I hope this gives a concrete picture of how I work with mobile stacks and maintainable test code.
+
+
 ## Framework overview
 
 The project follows a layered layout: **Page Object Model** for locators and actions, a **base hook** class for driver lifecycle and reporting, and **TestNG** for grouping and ordering tests. The Appium **Java client** drives **UiAutomator2** on Android. **ExtentReports** (Spark) produces HTML reports under `reports/`.
