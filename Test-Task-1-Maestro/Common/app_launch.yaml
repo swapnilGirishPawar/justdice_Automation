@@ -1,0 +1,9 @@
+appId: com.setmore.app
+---
+- launchApp:
+    clearState: true
+
+- assertVisible: "setmoreLogo"
+
+- assertVisible:
+    id: "continue_with_email"

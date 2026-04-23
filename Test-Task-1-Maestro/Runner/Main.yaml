@@ -1,0 +1,13 @@
+appId: com.setmore.app
+name: TestRunner
+tags:
+  - smoke
+
+---
+- launchApp:
+    clearState: true
+
+
+# Add multiple flows below 
+- runFlow: ../Flows/login_flow_SetmoreTest.yaml
+#- runFlow: ../Flows/login_flow_JustDiceTestTaskApp.yaml
