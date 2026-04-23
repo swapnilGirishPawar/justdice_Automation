@@ -1,0 +1,55 @@
+appId: com.justDiceTestTask.app
+---
+- launchApp:
+    clearState: true
+
+
+# Step 1 Launch app and validate UI Elements.
+- assertVisible:
+    id: "loginScreen.title"
+    text: "Welcome back"
+
+- assertVisible: "Email"
+
+- assertVisible:
+    id: "loginScreen.emailInput"
+    text: "qa@example.com"
+
+- assertVisible: "Password"
+
+- assertVisible:
+    id: "loginScreen.passwordInput"
+    text: "Enter your password"
+
+- assertVisible:
+    id: "loginScreen.loginButton"
+    enabled: false
+
+
+# Step 2 - Entering details -> validations.
+- tapOn:
+    id: "loginScreen.emailInput"
+- inputText: ${EMAIL}
+
+- assertVisible: "qa@example.com"
+
+- tapOn:
+    id: "loginScreen.passwordInput"
+- inputText: "Password123!"
+
+- assertVisible:
+    id: "loginScreen.loginButton"
+    enabled: true
+
+- tapOn:
+    id: "loginScreen.loginButton"
+
+
+# Step 3 - Validate Succesful login - Home Page.
+- assertVisible:
+    id: "homeScreen.title"
+    text: "Home"
+
+- assertVisible:
+    id: "homeScreen.welcomeMessage"
+    text: ${EMAIL}

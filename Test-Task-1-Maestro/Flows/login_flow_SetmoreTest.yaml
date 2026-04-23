@@ -1,0 +1,59 @@
+appId: com.setmore.app
+---
+- runFlow: ../common/app_launch.yaml
+
+# Assertions for App launch main page
+- assertVisible: "setmoreLogo"
+- assertVisible: "appleSocialIcon"
+- assertVisible: "googleSocialIcon"
+- assertVisible: 
+    id: "microsoftSocialIcon"
+    optional: true
+- assertVisible: "facebookSocialIcon"
+- assertVisible:
+    id: "continue_with_email"
+- assertVisible: "Create an account"
+
+
+- tapOn:
+    id: "continue_with_email"
+
+# Assertions for Email login page
+- assertVisible:
+    id: "Login"
+- assertVisible:
+    id: "back"
+- assertVisible:
+    id: "email"
+- assertVisible:
+    id: "password"
+- assertVisible:
+    id: "password_trailing_btn"
+- assertVisible:
+    id: "forgot_password"
+- assertVisible:
+    text: "Log in"
+    enabled: false
+
+
+- tapOn:
+    id: "email"
+- inputText: ${EMAIL}
+
+- assertVisible: 
+    text: ${EMAIL}
+
+- tapOn:
+    id: "password"
+- inputText: ${PASSWORD}
+- assertNotVisible:
+    text: ${PASSWORD}
+
+- assertVisible:
+    text: "Log in"
+    enabled: true
+
+- tapOn: "Log in"
+
+- assertVisible:
+    id: "calendar_tab"
